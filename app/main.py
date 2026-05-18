@@ -1,6 +1,6 @@
 from app.core import get_genres, recommend_book
 def run():
-	print("--- DevOps система рекомендаций книг ---")
+	print("Система рекомендаций книг")
 	try:
 		genres = get_genres()
 		print(f"Доступные жанры: {', '.join(genres)}")

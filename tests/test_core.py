@@ -5,6 +5,7 @@ class TestBookRecommendation(unittest.TestCase):
 		genres = get_genres()
 		self.assertTrue(len(genres) > 0)
 		self.assertIn("фантастика", genres)
+		self.assertIn("фэнтези", genres)
 	def test_recommend_book_correct_genre(self):
 		book = recommend_book("детектив")
 		self.assertEqual(book["genre"], "детектив")
