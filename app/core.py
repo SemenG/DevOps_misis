@@ -1,6 +1,8 @@
 import csv
 import os
 import random
+
+
 def load_books():
 	books = []
 	base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -12,9 +14,13 @@ def load_books():
 		for row in reader:
 			books.append(row)
 	return books
+
+
 def get_genres():
 	books = load_books()
 	return list(set(book["genre"] for book in books))
+
+
 def recommend_book(genre):
 	genre = genre.lower().strip()
 	books = load_books()

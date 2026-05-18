@@ -1,14 +1,15 @@
-name: Python CI
+name: Python CI/CD
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - name: Checkout repository
@@ -19,6 +20,32 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Run tests
+    - name: Install dependencies
       run: |
-        python -m unittest discover -s tests
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Linter (Flake8)
+      run: |
+        flake8 .
+
+    - name: Run tests with Coverage
+      run: |
+        coverage run -m unittest discover -s tests
+        coverage report -m
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository }}:latest
+          ghcr.io/${{ github.repository }}:${{ github.sha }}
