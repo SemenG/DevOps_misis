@@ -1,2 +1,6 @@
-flake8
-coverage
+fastapi
+uvicorn
+pydantic
+pandas
+numpy
+scikit-learn
