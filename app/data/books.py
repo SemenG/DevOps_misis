@@ -36,7 +36,6 @@ class DataLoader:
         line_idx = item_id + 1
 
         if 0 <= line_idx < len(self.raw_lines):
-            # Разбиваем строку по запятой
             parts = self.raw_lines[line_idx].strip().split(',')
             if len(parts) >= 2:
                 title = parts[0]
